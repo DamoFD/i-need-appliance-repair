@@ -17,7 +17,9 @@ class TagController extends Controller
     
     public function index()
     {
-        return view('admin.tags.index');
+        return view('admin.tags.index', [
+            'tags' => Tag::all(),
+        ]);
     }
 
     public function create()
@@ -32,7 +34,7 @@ class TagController extends Controller
 
     public function edit(Tag $tag)
     {
-        return view('admin.tags.edit');
+        return view('admin.tags.edit', compact('tag'));
     }
 
     public function update(Request $request, Tag $tag)
