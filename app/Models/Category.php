@@ -13,13 +13,13 @@ class Category extends Model
 
     protected $fillable = ['name', 'slug'];
 
-    public function getCreatedAtAttribute($date)
-    {
-        return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('d/m/y');
-    }
-
     public function threads(): HasMany
     {
         return $this->hasMany(Thread::class);
+    }
+
+    public function createdAt(): String
+    {
+        return $this->created_at->format('d/m/Y');
     }
 }
