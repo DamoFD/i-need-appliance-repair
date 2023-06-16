@@ -19,6 +19,12 @@ trait HasTags
         $this->unsetRelation('tagsRelation');
     }
 
+    public function removeTags()
+    {
+        $this->tagsRelation()->detach();
+        $this->unsetRelation('tagsRelation');
+    }
+
     public function tagsRelation() : MorphToMany
     {
         return $this->morphToMany(Tag::class, 'taggables')->withTimestamps();
