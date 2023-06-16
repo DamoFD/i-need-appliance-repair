@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Tag;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Middleware\IsAdmin;
 use App\Http\Controllers\Controller;
@@ -29,7 +30,16 @@ class TagController extends Controller
 
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => ['required', 'unique:tags']
+        ]);
+
+        Tag::create([
+            'name' => $request->name,
+            'slug' => Str::slug($request->name),
+        ]);
+
+        return redirect()->route('admin.tags.index')->with('success', 'Tag Created');
     }
 
     public function edit(Tag $tag)
@@ -39,11 +49,22 @@ class TagController extends Controller
 
     public function update(Request $request, Tag $tag)
     {
-        //
+        $this->validate($request, [
+            'name' => ['required', 'unique:tags']
+        ]);
+
+        $tag->update([
+            'name' => $request->name,
+            'slug' => Str::slug($request->name),
+        ]);
+
+        return redirect()->route('admin.tags.index')->with('success', 'Tag Updated');
     }
 
     public function destroy(Tag $tag)
     {
-        //
+        $tag->delete();
+
+        return redirect()->route('admin.tags.index')->with('success', 'Tag Deleted');
     }
 }
